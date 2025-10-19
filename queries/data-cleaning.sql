@@ -21,3 +21,4 @@ UPDATE StagingHealthData SET Disease_Category = 'Respiratory' WHERE Disease_Name
 UPDATE StagingHealthData SET Disease_Category = 'Viral' WHERE Disease_Name = 'HIV/AIDS';
 UPDATE StagingHealthData SET Disease_Category = 'Viral' WHERE Disease_Name = 'Influenza';
 UPDATE StagingHealthData SET Disease_Category = 'Viral' WHERE Disease_Name = 'Hepatitis';
+
