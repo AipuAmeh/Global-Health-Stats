@@ -41,17 +41,63 @@ GROUP BY Disease_Category
 -- select disease name, population affected, prevalence rate, incidence rate
 -- from staginghealthdata
 -- order by desc
--- limit 5
 SELECT 
     Disease_Name, 
 	AVG(Population_Affected) AS avg_pop_affected, 
 	AVG(Prevalence_Rate) as avg_prevalence_rate, 
-	AVG(incidence_rate) as avg_incidence_Rate, 
-	Pop_Total,
+	AVG(incidence_rate) as avg_incidence_Rate
 FROM StagingHealthData
 GROUP BY Disease_Name
-ORDER BY Disease_Name, Population_Affected DESC
+ORDER BY avg_pop_affected, avg_prevalence_rate, avg_incidence_Rate DESC
 LIMIT 5
 ;
 
+-- which country has the highest prevalence of these top 5 diseases?
+DROP VIEW IF EXISTS Top_Diseases;
+
+CREATE VIEW Top_Diseases AS
+SELECT 
+    Disease_Name, 
+	AVG(Population_Affected) AS avg_pop_affected, 
+	AVG(Prevalence_Rate) as avg_prevalence_rate, 
+	AVG(incidence_rate) as avg_incidence_Rate
+FROM StagingHealthData
+GROUP BY Disease_Name
+ORDER BY avg_pop_affected, avg_prevalence_rate, avg_incidence_Rate DESC
+LIMIT 5
+;
+
+SELECT 
+a.Country,
+a.Disease_Name,
+a.Population_Affected,
+a.Prevalence_Rate,
+a.incidence_rate
+FROM StagingHealthData a
+JOIN Top_Diseases b
+ON a.Disease_Name = b.Disease_Name
+ORDER BY b.Prevalence_Rate DESC
+
+-- drill down on Argentina
+SELECT 
+Country,
+Disease_Name,
+MAX(Prevalence_Rate)
+FROM StagingHealthData
+WHERE Country = 'Argentina'
+ORDER BY Prevalence_Rate DESC;
+
+-- age group of men and women affected by top 5 diseases?
+SELECT 
+a.Age_Group,
+a.Disease_Name,
+SUM(CASE WHEN a.Gender = 'Male' THEN 1 ELSE 0 END) AS num_of_males,
+SUM(CASE WHEN a.Gender = 'Female' THEN 1 ELSE 0 END) AS num_of_females,
+SUM(CASE WHEN a.Gender = 'Other' THEN 1 ELSE 0 END) AS other
+FROM StagingHealthData a
+JOIN Top_Diseases b
+ON a.Disease_Name = b.Disease_Name
+GROUP BY 
+a.Age_Group,
+a.Disease_Name;
 
