@@ -101,3 +101,8 @@ GROUP BY
 a.Age_Group,
 a.Disease_Name;
 
+-- number of infectious diseases vs ncd globally? in africa?
+-- population affected 
+-- num of people affected by infectious diseases
+-- vs num of people affected by ncds
+SELECT COUNT(CASE WHEN Main_Disease_Category = 'infectious_diseases' THEN 1 ELSE 0 END) AS num_of_infectious_diseases
