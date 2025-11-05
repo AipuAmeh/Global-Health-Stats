@@ -105,4 +105,32 @@ a.Disease_Name;
 -- population affected 
 -- num of people affected by infectious diseases
 -- vs num of people affected by ncds
-SELECT COUNT(CASE WHEN Main_Disease_Category = 'infectious_diseases' THEN 1 ELSE 0 END) AS num_of_infectious_diseases
+SELECT 
+a.Main_Disease_Categories,
+COUNT(*),
+b.Population_Affected
+FROM DiseaseNameAndCategories a
+LEFT JOIN StagingHealthData b
+ON a.Disease_Name = b.Disease_Name
+GROUP BY a.Main_Disease_Categories
+ORDER BY a.Main_Disease_Categories
+;
+
+-- top 10 countries with the highest population affected by infectious diseases
+-- select population affected, and countries
+-- from staging health data
+-- join disease name and categories
+-- on disease name
+-- where disease category is infectious
+SELECT 
+    a.Population_Affected,
+    a.Country,
+    b.Disease_Name
+FROM StagingHealthData a
+LEFT JOIN DiseaseNameAndCategories b
+ON a.Disease_Name = b.Disease_Name
+WHERE b.Main_Disease_Categories = 'infectious_diseases'
+GROUP BY a.Country
+ORDER BY a.Population_Affected DESC
+LIMIT 10;
+
