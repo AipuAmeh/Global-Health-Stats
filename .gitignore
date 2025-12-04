@@ -1,6 +1,6 @@
-global-health-stats.db
-
-global-health-stats.db-journal
+new-db.db
+*.sqlite
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
