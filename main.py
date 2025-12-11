@@ -46,12 +46,23 @@ df_q1_result = (
     .reset_index(name='Average_Incidence_Rate')    
     # 4. ORDER BY (equivalent to SQL ORDER BY)
     # Sort the final result by the calculated average rate
-    .sort_values(by='Average_Incidence_Rate', ascending=True)
+    .sort_values(by=['Disease_Name', 'Year'], ascending=[True, True])
 )
-
+# print(df_q1_result)
 ## question 2
-
-
+df_q2_result = (
+    df_staging.merge(
+        df_top_diseases,
+        on = 'Disease_Name',
+        how='inner'
+    )
+    .query('2015 <= Year <= 2025')
+    .groupby(['Disease_Name', 'Year'])['Mortality_Rate']
+    .mean()
+    .reset_index(name='Average_Mortality_Rate')
+    .sort_values(by=['Disease_Name', 'Year'], ascending=[True, True])
+)
+print(df_q2_result)
 # Close the connection
 conn.close()
 
