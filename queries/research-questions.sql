@@ -32,18 +32,18 @@ ORDER BY b.Disease_Name, a.Year ASC
 -- define mortality trend to see the max mortality rate in 2015 and max rate in 2025 -- heat map?
 WITH MortalityTrends AS (
     SELECT a.Country, a.Disease_Name, 
-        MAX(CASE WHEN a.Year = 2015 THEN a.Mortality_Rate END) AS Rate_2015,
-        MAX(CASE WHEN a.Year = 2025 THEN a.Mortality_Rate END) AS Rate_2025
+        MAX(CASE WHEN a.Year = 2014 THEN a.Mortality_Rate END) AS Rate_2014,
+        MAX(CASE WHEN a.Year = 2024 THEN a.Mortality_Rate END) AS Rate_2024
     FROM StagingHealthData a
     JOIN Top_Diseases b
     ON a.Disease_Name = b.Disease_Name
-    WHERE a.Year IN (2015, 2025)
+    WHERE a.Year IN (2014, 2024)
     GROUP BY a.Country, a.Disease_Name
 )
 SELECT 
-    Country, Disease_Name, Rate_2015, Rate_2025, (((Rate_2015 - Rate_2025)/100)*100) AS Total_Rate_Decrease
+    Country, Disease_Name, Rate_2014, Rate_2024, (((Rate_2014 - Rate_2024)/Rate_2014)*100) AS Total_Rate_Decrease
 FROM MortalityTrends
-WHERE Rate_2015 IS NOT NULL AND Rate_2025 IS NOT NULL
-ORDER BY Total_Rate_Decrease
+WHERE Rate_2014 IS NOT NULL AND Rate_2024 IS NOT NULL
+ORDER BY Total_Rate_Decrease DESC
 LIMIT 10;
 
