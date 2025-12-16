@@ -63,6 +63,12 @@ df_q2_result = (
     .sort_values(by=['Disease_Name', 'Year'], ascending=[True, True])
 )
 print(df_q2_result)
+## question 3
+
+
+
+
+
 # Close the connection
 conn.close()
 
