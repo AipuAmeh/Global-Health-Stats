@@ -63,6 +63,7 @@ df_q2_result = (
     .sort_values(by=['Disease_Name', 'Year'], ascending=[True, True])
 )
 # print(df_q2_result)
+
 ## question 3
 cte_query = """
 SELECT 
@@ -78,9 +79,19 @@ q3_df = pd.read_sql_query(cte_query, conn)
 
 q3_df['Total_Rate_Decrease'] = (((q3_df['Rate_2014'] - q3_df['Rate_2024'])/q3_df['Rate_2014'])*100)
 top_improvers = q3_df.sort_values(by='Total_Rate_Decrease', ascending=False)
-print(top_improvers[['Country', 'Disease_Name','Total_Rate_Decrease']].head(10))
+# print(top_improvers[['Country', 'Disease_Name','Total_Rate_Decrease']].head(10))
 
-
+## question 4
+q4_query = """
+    SELECT a.Country, a.Disease_Name, Per_Capita_Income, Education_Index, Healthcare_Access
+    FROM StagingHealthData a
+    JOIN Top_Diseases b
+    ON a.Disease_Name = b.Disease_Name
+    GROUP BY a.Country, a.Disease_Name
+	;
+"""
+q4_df = pd.read_sql_query(q4_query, conn)
+print(q4_df)
 
 
 # Close the connection
