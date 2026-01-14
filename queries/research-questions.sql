@@ -47,3 +47,10 @@ WHERE Rate_2014 IS NOT NULL AND Rate_2024 IS NOT NULL
 ORDER BY Total_Rate_Decrease DESC
 LIMIT 10;
 
+-- For countries with the highest prevalence of top 5 conditions, what barriers could contribute to prevalence rate? look at socioeconomic factors
+    SELECT a.Country, a.Disease_Name, Per_Capita_Income, Education_Index, Healthcare_Access
+    FROM StagingHealthData a
+    JOIN Top_Diseases b
+    ON a.Disease_Name = b.Disease_Name
+    GROUP BY a.Country, a.Disease_Name
+	;
