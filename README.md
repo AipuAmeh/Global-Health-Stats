@@ -1,4 +1,5 @@
-# Global Health Statistics ** Synthetic Data **
+# Global Health Statistics 
+### ** Synthetic Data **
 
 ## Research Question
 * What is the incidence rate of the top 5 diseases within the past 10 years (2014-2024)?
